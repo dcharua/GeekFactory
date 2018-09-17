@@ -1,0 +1,53 @@
+<div class="container">
+  <hr>
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Criterio</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Ponderacion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let criterio of criterios; index as i">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{ criterio.nombre }}</td>
+            <td>{{ criterio.tipo }}</td>
+            <td><input type="text" value ="{{ criterio.ponderacion }}" ></td>
+          </tr>
+        </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-success" (click) = "popAdd()" >Nuevo criterio</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="add">
+  <button type="button" class="close" aria-label="Close" (click) = "closeAdd()">
+    <span class="close-btn " aria-hidden="true">&times;</span>
+  </button>
+  <form >
+      <div class="form-group">
+        <label for="criterio">Criterio</label>
+        <input type="text" class="form-control" id="criterio" #criterioInput >
+      </div>
+      <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <select id="tipo" class="form-control" #tipoInput>
+          <option selected>Cuantitativo</option>
+          <option> Cualitativo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="ponderacion">Ponderación</label>
+        <input type="text" class="form-control" id="ponderacion" #ponderacionInput>
+      </div>
+      <span (click) ="add()" class="btn btn-success">Agregar</span>
+        </form>
+</div>

@@ -1,0 +1,24 @@
+.right{
+  float: right;
+  text-align: right;
+}
+
+#add{
+  display: none;
+  border-radius: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f8f8f8 !important;
+  width: 50%;
+  padding: 5%;
+  -webkit-box-shadow: 2px 5px 16px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 2px 5px 16px 0px rgba(0,0,0,0.75);
+  box-shadow: 2px 5px 16px 0px rgba(0,0,0,0.75);
+}
+
+.close-btn{
+  position: absolute;
+  top: 20px;
+}
