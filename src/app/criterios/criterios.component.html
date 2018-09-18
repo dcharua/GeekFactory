@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container box">
   <hr>
   <div class="row">
     <div class="col">
@@ -32,7 +32,7 @@
   <button type="button" class="close" aria-label="Close" (click) = "closeAdd()">
     <span class="close-btn " aria-hidden="true">&times;</span>
   </button>
-  <form >
+    <form >
       <div class="form-group">
         <label for="criterio">Criterio</label>
         <input type="text" class="form-control" id="criterio" #criterioInput >
@@ -49,5 +49,9 @@
         <input type="text" class="form-control" id="ponderacion" #ponderacionInput>
       </div>
       <span (click) ="add()" class="btn btn-success">Agregar</span>
-        </form>
+      <!-- <span (mouseover)="help=true" (mouseout)="help=false" class="btn btn-info"> Ayuda</span>
+      <div class="help" *ngIf="changeText">
+        <p>Eliga </p>
+      </div> -->
+    </form>
 </div>

@@ -11,6 +11,7 @@ export class CriteriosComponent implements OnInit {
   @ViewChild('criterioInput') criterioInput: ElementRef;
   @ViewChild('tipoInput') tipoInput: ElementRef;
   @ViewChild('ponderacionInput') ponderacionInput: ElementRef;
+  help: boolean = false;
   criterios: Criterio[] = [
     new Criterio('Duracion (en meses)', 'Cuantitativo', '0'),
     new Criterio('Valor presente neto', 'Cuantitativo', '0'),

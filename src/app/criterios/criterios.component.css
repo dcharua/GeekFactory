@@ -1,3 +1,11 @@
+.box{
+  margin-top: 25px;
+  margin-left: auto;
+  padding: 25px;
+  border-radius: 30px;
+  box-shadow: 2px 5px 16px 0px rgba(0,0,0,0.75);
+}
+
 .right{
   float: right;
   text-align: right;
