@@ -18,11 +18,11 @@ export class CriteriosComponent implements OnInit {
   help: boolean = false;
   total = 100;
   criterios: Criterio[] = [
-    new Criterio('Duracion (en meses)', 'Cuantitativo', 20),
+    new Criterio('Duración (en meses)', 'Cuantitativo', 20),
     new Criterio('Valor presente neto', 'Cuantitativo', 20),
     new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20),
     new Criterio('Riesgo', 'Cualitativo', 20),
-    new Criterio('Generacion de tecnologia propitaria', 'Cualitativo', 20)
+    new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20)
   ];
 
   proyectos: Proyecto[] =[ new Proyecto('GeekFactory', '10000', 'Administrador de Proyectos')];
