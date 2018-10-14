@@ -74,7 +74,7 @@
             <th scope="row">{{i + 1}}</th>
             <td>{{ criterio.nombre }}</td>
             <td>{{ criterio.tipo }}</td>
-            <td><input type="number" [(ngModel)]="criterios[i].ponderacion"
+            <td><input type="number" [(ngModel)]="criterio.ponderacion"
                        (input)="calcCriPond()"
             ></td>
           </tr>
