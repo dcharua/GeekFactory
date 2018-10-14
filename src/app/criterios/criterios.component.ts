@@ -21,6 +21,7 @@ export class CriteriosComponent implements OnInit {
   help = false;
   error = '';
   total = 100;
+  disabledSave = false;
 
   criterios: Criterio[] = [
     new Criterio('Duración (en meses)', 'Cuantitativo', 20, Interpetacion.mayor),
@@ -91,17 +92,17 @@ export class CriteriosComponent implements OnInit {
     if (this.total === 100) {
       this.error = '';
       $('#error').css({'display': 'none'});
-      console.log('Ok');
+      this.disabledSave = false;
     }
     if (this.total < 100) {
       this.error = 'La suma de ponderaciones es menor a 100';
       $('#error').css({'display': 'inherit'});
-      console.log('Too low');
+      this.disabledSave = true;
     }
     if (this.total > 100) {
       this.error = 'La suma de ponderaciones es mayor a 100';
       $('#error').css({'display': 'inherit'});
-      console.log('Too high');
+      this.disabledSave = true;
     }
   }
 

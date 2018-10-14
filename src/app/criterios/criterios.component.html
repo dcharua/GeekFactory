@@ -95,7 +95,7 @@
   <div class="row">
     <div class="col-12">
       <button class="btn btn-success" (click) = "popAddCri()" >Agregar</button>
-      <button class="btn btn-primary" style="margin-left: 20px;" (click) = "regresar()" >Regresar a proyectos</button>
+      <button [disabled]="disabledSave" class="btn btn-primary" style="margin-left: 20px;" (click) = "regresar()" >Regresar a proyectos</button>
     </div>
   </div>
 </div>
