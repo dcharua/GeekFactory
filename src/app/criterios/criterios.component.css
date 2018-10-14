@@ -48,3 +48,7 @@
   position: absolute;
   top: 20px;
 }
+
+#error {
+  display: none;
+}
