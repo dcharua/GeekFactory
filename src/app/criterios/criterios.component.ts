@@ -60,8 +60,8 @@ export class CriteriosComponent implements OnInit {
     this.proyectos.push(new Proyecto(this.proyectoNombre.nativeElement.value,
       this.proyectoCosto.nativeElement.value, this.proyectoDescripcion.nativeElement.value));
     this.closeAddPro();
-    $('#proyectos').css({'display': 'none'});
-    $('#criterios').fadeIn();
+    // $('#proyectos').css({'display': 'none'});
+    // $('#criterios').fadeIn();
   }
 
   addCri() {
@@ -70,7 +70,7 @@ export class CriteriosComponent implements OnInit {
       criterio.ponderacion = criterio.ponderacion - rest;
     }
     let interpretacion: Interpetacion;
-    const ponderacion: number = +this.ponderacionInput.nativeElement.value
+    const ponderacion: number = +this.ponderacionInput.nativeElement.value;
     if (this.interpretacionInput.nativeElement.value === 'Mayor') {
       interpretacion = Interpetacion.mayor;
     } else {
@@ -106,7 +106,7 @@ export class CriteriosComponent implements OnInit {
     }
   }
 
-  regresar() {
+  goProyectos() {
     $('#criterios').css({'display': 'none'});
     $('#proyectos').fadeIn();
   }

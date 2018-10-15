@@ -11,8 +11,11 @@
   text-align: right;
 }
 
+#proyectos{
+  display:none
+}
+
 #criterios{
-  display: none;
 }
 
 #addProyecto{
