@@ -1,3 +1,83 @@
+<div class="container box" id="criterios">
+  <hr>
+
+  <div class="alert alert-danger" id="error">
+    {{error}}
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Criterio</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Ponderación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let criterio of criterios; index as i">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{ criterio.nombre }}</td>
+            <td>{{ criterio.tipo }}</td>
+            <td><input ng-validate="required" type="number" step="0.01" [(ngModel)]="criterio.ponderacion"
+                       (input)="calcCriPond()"
+            ></td>
+          </tr>
+
+          <tr>
+            <th scope="row"></th>
+            <td></td>
+            <td></td>
+            <td>Total {{total}}%</td>
+          </tr>
+        </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-success" (click) = "popAddCri()" >Agregar Criterio</button>
+      <button [disabled]="disabledSave" class="btn btn-primary" style="margin-left: 20px;" (click) = "goProyectos()" >Ir a Proyectos</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="addCriterio">
+  <button type="button" class="close" aria-label="Close" (click) = "closeAddCri()">
+    <span class="close-btn " aria-hidden="true">&times;</span>
+  </button>
+    <form >
+      <div class="form-group">
+        <label for="criterio">Criterio</label>
+        <input ng-validate="required"  type="text" class="form-control" id="criterio" #criterioInput >
+      </div>
+      <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <select id="tipo" class="form-control" #tipoInput>
+          <option selected>Cuantitativo</option>
+          <option> Cualitativo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="interpretacion">Interpretación</label>
+        <select id="interpretacion" class="form-control" #interpretacionInput>
+          <option selected>Mayor</option>
+          <option>Menor</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="ponderacion">Ponderación</label>
+        <input ng-validate="required" type="number" class="form-control" id="ponderacion" #ponderacionInput>
+      </div>
+      <span (click) ="addCri()" class="btn btn-success">Agregar</span>
+      <!-- <span (mouseover)="help=true" (mouseout)="help=false" class="btn btn-info"> Ayuda</span>
+      <div class="help" *ngIf="help">
+        <p>Eliga </p>
+      </div> -->
+    </form>
+</div>
+
+
 <div class="container box" id="proyectos">
   <hr>
   <div class="row">
@@ -24,6 +104,8 @@
   <div class="row">
     <div class="col-12">
       <button class="btn btn-success" (click) = "popAddPro()" >Agregar Proyecto</button>
+      <span style="margin-left: 20px;" (click) ="goCriPro()" class="btn btn-info">Asignar Valores</span>
+      <span style="margin-left: 20px;" (click) ="backCri()" class="btn btn-danger">Regresar a Criterios</span>
     </div>
   </div>
 </div>
@@ -35,102 +117,59 @@
     <form >
       <div class="form-group">
         <label for="criterio">Nombre</label>
-        <input type="text" class="form-control" id="nombre" #proyectoNombre >
+        <input ng-validate="required" type="text" class="form-control" id="nombre" #proyectoNombre >
       </div>
       <div class="form-group">
         <label for="costo">Costo</label>
-          <input type="text" class="form-control" id="costo" #proyectoCosto >
+          <input ng-validate="required"  type="text" class="form-control" id="costo" #proyectoCosto >
       </div>
       <div class="form-group">
         <label for="descripcion">Descripción</label>
         <textarea rows=3 type="text" class="form-control" id="descripcion" #proyectoDescripcion></textarea>
       </div>
       <span (click) ="addPro()" class="btn btn-success">Agregar</span>
-      <!-- <span (mouseover)="help=true" (mouseout)="help=false" class="btn btn-info"> Ayuda</span>
-      <div class="help" *ngIf="changeText">
-        <p>Eliga </p>
-      </div> -->
     </form>
 </div>
 
 
 
-
-<div class="container box" id="criterios">
+<div class="container box" id="criteriosProyectos">
   <hr>
-
-  <div class="alert alert-danger" id="error">
-    {{error}}
-  </div>
   <div class="row">
     <div class="col">
       <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-dark"  >
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Criterio</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Ponderación</th>
+            <th> Nombre</th>
+            <th *ngFor="let criterio of criterios" scope="col">{{ criterio.nombre | slice:0:25}}</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let criterio of criterios; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{ criterio.nombre }}</td>
-            <td>{{ criterio.tipo }}</td>
-            <td><input type="number" step="0.01" [(ngModel)]="criterio.ponderacion"
-                       (input)="calcCriPond()"
-            ></td>
-          </tr>
-
-          <tr>
-            <th scope="row"></th>
-            <td></td>
-            <td></td>
-            <td>Total {{total}}%</td>
+          <tr *ngFor="let proyecto of proyectos">
+            <td>{{ proyecto.nombre }}</td>
+            <td *ngFor= "let criterio of proyecto.criterios" >
+              <ng-template [ngIf]="criterio.tipo === 'Cuantitativo'"  [ngIfElse]="Cualitativo">
+                <input ng-validate="required" style="width: 100%" [value]='criterios.valor' [(ngModel)]="criterio.valor">
+              </ng-template>
+              <ng-template #Cualitativo>
+                <select ng-validate="required" [(ngModel)]="criterio.valor" class="form-control">
+                  <option selected>Muy Alto</option>
+                  <option> Alto</option>
+                  <option> Medio</option>
+                  <option> Bajo</option>
+                  <option> Muy Bajo</option>
+                </select>
+              </ng-template>
+            </td>
           </tr>
         </table>
+        <div class="row">
+          <div class="col-12">
+            <span (click) ="addCriPro()" class="btn btn-success">Continuar</span>
+            <span style="margin-left: 20px;" (click) ="backPro()" class="btn btn-danger">Regresar a Proyectos</span>
+          </div>
+        </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <button class="btn btn-success" (click) = "popAddCri()" >Agregar Criterio</button>
-      <button [disabled]="disabledSave" class="btn btn-primary" style="margin-left: 20px;" (click) = "goProyectos()" >Agregar Proyectos</button>
-    </div>
-  </div>
-</div>
 
-<div class="container" id="addCriterio">
-  <button type="button" class="close" aria-label="Close" (click) = "closeAddCri()">
-    <span class="close-btn " aria-hidden="true">&times;</span>
-  </button>
-    <form >
-      <div class="form-group">
-        <label for="criterio">Criterio</label>
-        <input type="text" class="form-control" id="criterio" #criterioInput >
-      </div>
-      <div class="form-group">
-        <label for="tipo">Tipo</label>
-        <select id="tipo" class="form-control" #tipoInput>
-          <option selected>Cuantitativo</option>
-          <option> Cualitativo</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="interpretacion">Interpretación</label>
-        <select id="interpretacion" class="form-control" #interpretacionInput>
-          <option selected>Mayor</option>
-          <option>Menor</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="ponderacion">Ponderación</label>
-        <input type="number" class="form-control" id="ponderacion" #ponderacionInput>
-      </div>
-      <span (click) ="addCri()" class="btn btn-success">Agregar</span>
-      <!-- <span (mouseover)="help=true" (mouseout)="help=false" class="btn btn-info"> Ayuda</span>
-      <div class="help" *ngIf="changeText">
-        <p>Eliga </p>
-      </div> -->
-    </form>
 </div>

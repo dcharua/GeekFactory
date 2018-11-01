@@ -24,19 +24,20 @@ export class CriteriosComponent implements OnInit {
   disabledSave = false;
 
   criterios: Criterio[] = [
-    new Criterio('Duración (en meses)', 'Cuantitativo', 20, Interpetacion.mayor),
-    new Criterio('Valor presente neto', 'Cuantitativo', 20, Interpetacion.mayor),
-    new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20, Interpetacion.mayor),
-    new Criterio('Riesgo', 'Cualitativo', 20, Interpetacion.mayor),
-    new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20, Interpetacion.mayor)
+    new Criterio('Duración (en meses)', 'Cuantitativo', 20, Interpetacion.mayor, 5000),
+    new Criterio('Valor presente neto', 'Cuantitativo', 20, Interpetacion.mayor, 200),
+    new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20, Interpetacion.mayor, 'mayor'),
+    new Criterio('Riesgo', 'Cualitativo', 20, Interpetacion.mayor, null),
+    new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20, Interpetacion.mayor, null)
   ];
 
-  proyectos: Proyecto[] = [new Proyecto('GeekFactory', '10000', 'Administrador de Proyectos')];
+  proyectos: Proyecto[] = [new Proyecto('GeekFactory', '10000', 'Administrador de Proyectos', this.criterios)];
 
   constructor() {
   }
 
   ngOnInit() {
+
   }
 
   popAddPro() {
@@ -58,10 +59,10 @@ export class CriteriosComponent implements OnInit {
 
   addPro() {
     this.proyectos.push(new Proyecto(this.proyectoNombre.nativeElement.value,
-      this.proyectoCosto.nativeElement.value, this.proyectoDescripcion.nativeElement.value));
+      this.proyectoCosto.nativeElement.value, this.proyectoDescripcion.nativeElement.value, this.criterios));
     this.closeAddPro();
-    // $('#proyectos').css({'display': 'none'});
-    // $('#criterios').fadeIn();
+    $('#proyectos').css({'display': 'none'});
+    $('#criteriosProyectos').fadeIn();
   }
 
   addCri() {
@@ -77,9 +78,28 @@ export class CriteriosComponent implements OnInit {
       interpretacion = Interpetacion.menor;
     }
     this.criterios.push(new Criterio(this.criterioInput.nativeElement.value, this.tipoInput.nativeElement.value,
-      ponderacion, interpretacion));
+      ponderacion, interpretacion, null));
     this.calcCriPond();
     this.closeAddCri();
+  }
+
+  backCri(){
+    $('#proyectos').css({'display': 'none'});
+    $('#criterios').fadeIn();
+  }
+
+  goCriPro(){
+    $('#proyectos').css({'display': 'none'});
+    $('#criteriosProyectos').fadeIn();
+  }
+
+  backPro(){
+    $('#criteriosProyectos').css({'display': 'none'});
+    $('#proyectos').fadeIn();
+  }
+  addCriPro(){
+    //Falta Validar los inputs
+    console.log(this.proyectos[0].criterios[0].valor)
   }
 
   calcCriPond() {
