@@ -31,7 +31,7 @@ export class CriteriosComponent implements OnInit {
     new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20, Interpetacion.mayor, null)
   ];
 
-  proyectos: Proyecto[] = [new Proyecto('GeekFactory', '10000', 'Administrador de Proyectos', this.criterios)];
+  proyectos: Proyecto[] = [new Proyecto('GeekFactory', '10000', 'Administrador de Proyectos', JSON.parse(JSON.stringify(this.criterios))];
 
   constructor() {
   }
@@ -59,7 +59,7 @@ export class CriteriosComponent implements OnInit {
 
   addPro() {
     this.proyectos.push(new Proyecto(this.proyectoNombre.nativeElement.value,
-      this.proyectoCosto.nativeElement.value, this.proyectoDescripcion.nativeElement.value, this.criterios));
+      this.proyectoCosto.nativeElement.value, this.proyectoDescripcion.nativeElement.value, JSON.parse(JSON.stringify(this.criterios))));
     this.closeAddPro();
     $('#proyectos').css({'display': 'none'});
     $('#criteriosProyectos').fadeIn();
