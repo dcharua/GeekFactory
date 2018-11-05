@@ -54,6 +54,6 @@
   top: 20px;
 }
 
-#error {
+.error {
   display: none;
 }

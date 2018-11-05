@@ -26,7 +26,7 @@ export class CriteriosComponent implements OnInit {
   criterios: Criterio[] = [
     new Criterio('Duración (en meses)', 'Cuantitativo', 20, Interpetacion.mayor, 5000),
     new Criterio('Valor presente neto', 'Cuantitativo', 20, Interpetacion.mayor, 200),
-    new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20, Interpetacion.mayor, 'mayor'),
+    new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20, Interpetacion.mayor, 300),
     new Criterio('Riesgo', 'Cualitativo', 20, Interpetacion.mayor, null),
     new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20, Interpetacion.mayor, null)
   ];
@@ -97,9 +97,30 @@ export class CriteriosComponent implements OnInit {
     $('#criteriosProyectos').css({'display': 'none'});
     $('#proyectos').fadeIn();
   }
+
   addCriPro(){
     //Falta Validar los inputs
-    console.log(this.proyectos[0].criterios[0].valor)
+    for (const proyecto of this.proyectos) {
+      for (const criterio of proyecto.criterios) {
+        if (criterio.valor == null || criterio.valor === '') {
+          this.showError("Llenar todos los valores")
+          return;
+        }
+      }
+    }
+    this.hideError();
+  }
+
+  showError(message: string){
+    this.error= message;
+    $('.error').css({'display': 'inherit'});
+    this.disabledSave = true;
+  }
+
+  hideError(){
+    this.error = '';
+    $('.error').css({'display': 'none'});
+    this.disabledSave = false;
   }
 
   calcCriPond() {
@@ -111,17 +132,17 @@ export class CriteriosComponent implements OnInit {
     this.total = tmp;
     if (this.total === 100) {
       this.error = '';
-      $('#error').css({'display': 'none'});
+      $('.error').css({'display': 'none'});
       this.disabledSave = false;
     }
     if (this.total < 100) {
       this.error = 'La suma de ponderaciones es menor a 100';
-      $('#error').css({'display': 'inherit'});
+      $('.error').css({'display': 'inherit'});
       this.disabledSave = true;
     }
     if (this.total > 100) {
       this.error = 'La suma de ponderaciones es mayor a 100';
-      $('#error').css({'display': 'inherit'});
+      $('.error').css({'display': 'inherit'});
       this.disabledSave = true;
     }
   }
