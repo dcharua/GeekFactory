@@ -31,13 +31,12 @@ export class CriteriosComponent implements OnInit {
     new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20, Interpetacion.mayor, null)
   ];
 
-  proyectos: Proyecto[] = [new Proyecto('GeekFactory', '10000', 'Administrador de Proyectos', JSON.parse(JSON.stringify(this.criterios))];
+  proyectos: Proyecto[] = [new Proyecto('GeekFactory', '10000', 'Administrador de Proyectos', JSON.parse(JSON.stringify(this.criterios)))];
 
   constructor() {
   }
 
   ngOnInit() {
-
   }
 
   popAddPro() {
@@ -55,6 +54,13 @@ export class CriteriosComponent implements OnInit {
 
   closeAddCri() {
     $('#addCriterio').fadeOut();
+  }
+
+  updateDummy(){
+    if (this.proyectos[0].criterios.length != this.criterios.length){
+          this.proyectos[0].criterios = JSON.parse(JSON.stringify(this.criterios));
+    }
+    console.log("updated")
   }
 
   addPro() {
@@ -90,6 +96,7 @@ export class CriteriosComponent implements OnInit {
 
   goCriPro(){
     $('#proyectos').css({'display': 'none'});
+    this.updateDummy();
     $('#criteriosProyectos').fadeIn();
   }
 
