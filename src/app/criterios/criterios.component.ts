@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Criterio, Interpetacion} from './criterio.model';
 import {Proyecto} from './proyecto.model';
-
+import { FormControl, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 declare var $: any;
 
 @Component({
@@ -14,19 +14,22 @@ export class CriteriosComponent implements OnInit {
   @ViewChild('proyectoNombre') proyectoNombre: ElementRef;
   @ViewChild('proyectoCosto') proyectoCosto: ElementRef;
   @ViewChild('proyectoDescripcion') proyectoDescripcion: ElementRef;
-  @ViewChild('criterioInput') criterioInput: ElementRef;
-  @ViewChild('tipoInput') tipoInput: ElementRef;
-  @ViewChild('ponderacionInput') ponderacionInput: ElementRef;
-  @ViewChild('interpretacionInput') interpretacionInput: ElementRef;
+
+  criterioForm:FormGroup;
+
+
+  proyectoForm:FormGroup;
+
+
   help = false;
   error = '';
   total = 100;
   disabledSave = false;
 
   criterios: Criterio[] = [
-    new Criterio('Duración (en meses)', 'Cuantitativo', 20, Interpetacion.mayor, 5000),
-    new Criterio('Valor presente neto', 'Cuantitativo', 20, Interpetacion.mayor, 200),
-    new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20, Interpetacion.mayor, 300),
+    new Criterio('Duración (en meses)', 'Cuantitativo', 20, Interpetacion.mayor, 0),
+    new Criterio('Valor presente neto', 'Cuantitativo', 20, Interpetacion.mayor, 0),
+    new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20, Interpetacion.mayor, 0),
     new Criterio('Riesgo', 'Cualitativo', 20, Interpetacion.mayor, null),
     new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20, Interpetacion.mayor, null)
   ];
@@ -37,6 +40,18 @@ export class CriteriosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.criterioForm = new FormGroup({
+      nombre: new FormControl("", Validators.required),
+      tipo: new FormControl("Cuantitativo", Validators.required),
+      ponderacion: new FormControl(20, Validators.required),
+      interpretacion: new FormControl("Mayor", Validators.required)
+    });
+
+    this.proyectoForm = new FormGroup({
+      nombre: new FormControl("",Validators.required),
+      costo: new FormControl("",Validators.required),
+      descripcion: new FormControl("", Validators.required)
+    });
   }
 
   popAddPro() {
@@ -64,29 +79,38 @@ export class CriteriosComponent implements OnInit {
   }
 
   addPro() {
-    this.proyectos.push(new Proyecto(this.proyectoNombre.nativeElement.value,
-      this.proyectoCosto.nativeElement.value, this.proyectoDescripcion.nativeElement.value, JSON.parse(JSON.stringify(this.criterios))));
-    this.closeAddPro();
-    $('#proyectos').css({'display': 'none'});
-    $('#criteriosProyectos').fadeIn();
+      if (this.proyectoForm.valid){
+      this.proyectos.push(new Proyecto(this.proyectoForm.get('nombre').value ,
+        this.proyectoForm.get('costo').value , this.proyectoForm.get('descripcion').value , JSON.parse(JSON.stringify(this.criterios))));
+      this.closeAddPro();
+      $('#proyectos').css({'display': 'none'});
+      $('#criteriosProyectos').fadeIn();
+    } else {
+       this.validateAllFormFields(this.criterioForm);
+    }
   }
 
   addCri() {
-    const rest = this.ponderacionInput.nativeElement.value / 5;
-    for (const criterio of this.criterios) {
-      criterio.ponderacion = criterio.ponderacion - rest;
-    }
-    let interpretacion: Interpetacion;
-    const ponderacion: number = +this.ponderacionInput.nativeElement.value;
-    if (this.interpretacionInput.nativeElement.value === 'Mayor') {
-      interpretacion = Interpetacion.mayor;
+    if (this.criterioForm.valid) {
+      const rest = this.criterioForm.get('ponderacion').value / 5;
+      for (const criterio of this.criterios) {
+        criterio.ponderacion = criterio.ponderacion - rest;
+      }
+      let interpretacion: Interpetacion;
+      const ponderacion: number = +this.criterioForm.get('ponderacion').value ;
+      if (this.criterioForm.get('interpretacion').value  === 'Mayor') {
+        interpretacion = Interpetacion.mayor;
+      } else {
+        interpretacion = Interpetacion.menor;
+      }
+      this.criterios.push(new Criterio(this.criterioForm.get('nombre').value , this.criterioForm.get('tipo').value ,
+        ponderacion, interpretacion, null));
+      this.calcCriPond();
+      this.closeAddCri();
+      this.updateDummy();
     } else {
-      interpretacion = Interpetacion.menor;
+       this.validateAllFormFields(this.criterioForm);
     }
-    this.criterios.push(new Criterio(this.criterioInput.nativeElement.value, this.tipoInput.nativeElement.value,
-      ponderacion, interpretacion, null));
-    this.calcCriPond();
-    this.closeAddCri();
   }
 
   backCri(){
@@ -159,4 +183,14 @@ export class CriteriosComponent implements OnInit {
     $('#proyectos').fadeIn();
   }
 
+  validateAllFormFields(formGroup: FormGroup) {         //{1}
+    Object.keys(formGroup.controls).forEach(field => {  //{2}
+      const control = formGroup.get(field);             //{3}
+      if (control instanceof FormControl) {             //{4}
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {        //{5}
+        this.validateAllFormFields(control);            //{6}
+      }
+    });
+  }
 }

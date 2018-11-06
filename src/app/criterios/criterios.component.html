@@ -45,30 +45,30 @@
   <button type="button" class="close" aria-label="Close" (click) = "closeAddCri()">
     <span class="close-btn " aria-hidden="true">&times;</span>
   </button>
-    <form >
+    <form [formGroup]="criterioForm" (ngSubmit)="addCri()">
       <div class="form-group">
         <label for="criterio">Criterio</label>
-        <input ng-validate="required"  type="text" class="form-control" id="criterio" #criterioInput >
+        <input  type="text" class="form-control" id="criterio" formControlName="nombre" required >
       </div>
       <div class="form-group">
         <label for="tipo">Tipo</label>
-        <select id="tipo" class="form-control" #tipoInput>
-          <option selected>Cuantitativo</option>
+        <select id="tipo" class="form-control" formControlName="tipo" required>
+          <option>Cuantitativo</option>
           <option> Cualitativo</option>
         </select>
       </div>
       <div class="form-group">
         <label for="interpretacion">Interpretación</label>
-        <select id="interpretacion" class="form-control" #interpretacionInput>
-          <option selected>Mayor</option>
+        <select id="interpretacion" class="form-control" formControlName="interpretacion" required>
+          <option [selected]>Mayor</option>
           <option>Menor</option>
         </select>
       </div>
       <div class="form-group">
         <label for="ponderacion">Ponderación</label>
-        <input ng-validate="required" type="number" class="form-control" id="ponderacion" #ponderacionInput>
+        <input type="number" class="form-control" id="ponderacion" formControlName="ponderacion" required>
       </div>
-      <span (click) ="addCri()" class="btn btn-success">Agregar</span>
+      <button [disabled]="!criterioForm.valid" class="btn btn-success">Agregar</button>
       <!-- <span (mouseover)="help=true" (mouseout)="help=false" class="btn btn-info"> Ayuda</span>
       <div class="help" *ngIf="help">
         <p>Eliga </p>
@@ -113,20 +113,20 @@
   <button type="button" class="close" aria-label="Close" (click) = "closeAddPro()">
     <span class="close-btn " aria-hidden="true">&times;</span>
   </button>
-    <form >
+    <form [formGroup]="proyectoForm" (ngSubmit)="addPro()">
       <div class="form-group">
         <label for="criterio">Nombre</label>
-        <input ng-validate="required" type="text" class="form-control" id="nombre" #proyectoNombre >
+        <input type="text" class="form-control" id="nombre" formControlName="nombre" required>
       </div>
       <div class="form-group">
         <label for="costo">Costo</label>
-          <input ng-validate="required"  type="text" class="form-control" id="costo" #proyectoCosto >
+          <input input type="number"  class="form-control" id="costo" formControlName="costo" required>
       </div>
       <div class="form-group">
         <label for="descripcion">Descripción</label>
-        <textarea rows=3 type="text" class="form-control" id="descripcion" #proyectoDescripcion></textarea>
+        <textarea rows=3 type="text" class="form-control" id="descripcion" formControlName="descripcion" required></textarea>
       </div>
-      <span (click) ="addPro()" class="btn btn-success">Agregar</span>
+      <button [disabled]="!proyectoForm.valid" class="btn btn-success">Agregar</button>
     </form>
 </div>
 
