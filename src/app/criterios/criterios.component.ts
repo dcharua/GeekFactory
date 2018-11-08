@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Criterio, Interpetacion} from './criterio.model';
 import {Proyecto} from './proyecto.model';
 import { FormControl, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -11,16 +11,9 @@ declare var $: any;
 })
 
 export class CriteriosComponent implements OnInit {
-  @ViewChild('proyectoNombre') proyectoNombre: ElementRef;
-  @ViewChild('proyectoCosto') proyectoCosto: ElementRef;
-  @ViewChild('proyectoDescripcion') proyectoDescripcion: ElementRef;
 
   criterioForm:FormGroup;
-
-
   proyectoForm:FormGroup;
-
-
   help = false;
   error = '';
   total = 100;
@@ -42,9 +35,9 @@ export class CriteriosComponent implements OnInit {
   ngOnInit() {
     this.criterioForm = new FormGroup({
       nombre: new FormControl("", Validators.required),
-      tipo: new FormControl("Cuantitativo", Validators.required),
-      ponderacion: new FormControl(20, Validators.required),
-      interpretacion: new FormControl("Mayor", Validators.required)
+      tipo: new FormControl("", Validators.required),
+      ponderacion: new FormControl("", Validators.required),
+      interpretacion: new FormControl("", Validators.required)
     });
 
     this.proyectoForm = new FormGroup({
@@ -72,10 +65,10 @@ export class CriteriosComponent implements OnInit {
   }
 
   updateDummy(){
-    if (this.proyectos[0].criterios.length != this.criterios.length){
-          this.proyectos[0].criterios = JSON.parse(JSON.stringify(this.criterios));
-    }
-    console.log("updated")
+    this.proyectos.forEach(proyecto => {
+      if (proyecto.criterios.length != this.criterios.length)
+        proyecto.criterios = JSON.parse(JSON.stringify(this.criterios));
+    });
   }
 
   addPro() {
@@ -83,8 +76,9 @@ export class CriteriosComponent implements OnInit {
       this.proyectos.push(new Proyecto(this.proyectoForm.get('nombre').value ,
         this.proyectoForm.get('costo').value , this.proyectoForm.get('descripcion').value , JSON.parse(JSON.stringify(this.criterios))));
       this.closeAddPro();
-      $('#proyectos').css({'display': 'none'});
-      $('#criteriosProyectos').fadeIn();
+      this.proyectoForm.reset();
+      // $('#proyectos').css({'display': 'none'});
+      // $('#criteriosProyectos').fadeIn();
     } else {
        this.validateAllFormFields(this.criterioForm);
     }
@@ -92,7 +86,7 @@ export class CriteriosComponent implements OnInit {
 
   addCri() {
     if (this.criterioForm.valid) {
-      const rest = this.criterioForm.get('ponderacion').value / 5;
+      const rest = this.criterioForm.get('ponderacion').value / this.criterios.length;
       for (const criterio of this.criterios) {
         criterio.ponderacion = criterio.ponderacion - rest;
       }
@@ -108,6 +102,7 @@ export class CriteriosComponent implements OnInit {
       this.calcCriPond();
       this.closeAddCri();
       this.updateDummy();
+      this.criterioForm.reset();
     } else {
        this.validateAllFormFields(this.criterioForm);
     }
@@ -166,12 +161,12 @@ export class CriteriosComponent implements OnInit {
       $('.error').css({'display': 'none'});
       this.disabledSave = false;
     }
-    if (this.total < 100) {
+    if (this.total < 99.9) {
       this.error = 'La suma de ponderaciones es menor a 100';
       $('.error').css({'display': 'inherit'});
       this.disabledSave = true;
     }
-    if (this.total > 100) {
+    if (this.total > 100.1) {
       this.error = 'La suma de ponderaciones es mayor a 100';
       $('.error').css({'display': 'inherit'});
       this.disabledSave = true;
@@ -183,13 +178,13 @@ export class CriteriosComponent implements OnInit {
     $('#proyectos').fadeIn();
   }
 
-  validateAllFormFields(formGroup: FormGroup) {         //{1}
-    Object.keys(formGroup.controls).forEach(field => {  //{2}
-      const control = formGroup.get(field);             //{3}
-      if (control instanceof FormControl) {             //{4}
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
         control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {        //{5}
-        this.validateAllFormFields(control);            //{6}
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
       }
     });
   }

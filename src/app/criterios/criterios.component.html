@@ -19,7 +19,7 @@
             <th scope="row">{{i + 1}}</th>
             <td>{{ criterio.nombre }}</td>
             <td>{{ criterio.tipo }}</td>
-            <td><input ng-validate="required" type="number" step="0.01" [(ngModel)]="criterio.ponderacion"
+            <td><input ng-validate="required" type="number" step="1" [(ngModel)]="criterio.ponderacion"
                        (input)="calcCriPond()"
             ></td>
           </tr>
@@ -120,7 +120,7 @@
       </div>
       <div class="form-group">
         <label for="costo">Costo</label>
-          <input input type="number"  class="form-control" id="costo" formControlName="costo" required>
+          <input type="number"  class="form-control" id="costo" formControlName="costo" required>
       </div>
       <div class="form-group">
         <label for="descripcion">Descripción</label>
@@ -151,7 +151,7 @@
             <td>{{ proyecto.nombre }}</td>
             <td *ngFor= "let criterio of proyecto.criterios" >
               <ng-template [ngIf]="criterio.tipo === 'Cuantitativo'"  [ngIfElse]="Cualitativo">
-                <input ng-validate="required" style="width: 100%" [value]='criterios.valor' [(ngModel)]="criterio.valor">
+                <input type="number" ng-validate="required" style="width: 100%" [value]='criterios.valor' [(ngModel)]="criterio.valor">
               </ng-template>
               <ng-template #Cualitativo>
                 <select ng-validate="required" [(ngModel)]="criterio.valor" class="form-control">
