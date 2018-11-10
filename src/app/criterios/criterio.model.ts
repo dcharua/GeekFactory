@@ -3,14 +3,16 @@ export class Criterio {
   public tipo: string;
   public ponderacion: number;
   public interpretacion: Interpetacion;
-  public valor: any;
+  public valor: number;
+  public peso: number;
 
-  constructor(nombre: string, tipo: string, ponderacion: number, interpretacion: Interpetacion, valor:any) {
+  constructor(nombre: string, tipo: string, ponderacion: number, interpretacion: Interpetacion, valor:any){
     this.nombre = nombre;
     this.tipo = tipo;
     this.ponderacion = ponderacion;
     this.interpretacion = interpretacion;
     this.valor = valor;
+    this.peso = 0;
   }
 }
 

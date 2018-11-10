@@ -20,10 +20,10 @@ export class CriteriosComponent implements OnInit {
   disabledSave = false;
 
   criterios: Criterio[] = [
-    new Criterio('Duración (en meses)', 'Cuantitativo', 20, Interpetacion.mayor, 0),
+    new Criterio('Duración (en meses)', 'Cuantitativo', 20, Interpetacion.menor, 0),
     new Criterio('Valor presente neto', 'Cuantitativo', 20, Interpetacion.mayor, 0),
-    new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20, Interpetacion.mayor, 0),
-    new Criterio('Riesgo', 'Cualitativo', 20, Interpetacion.mayor, null),
+    new Criterio('Período de recuperación de la inversión ', 'Cuantitativo', 20, Interpetacion.menor, 0),
+    new Criterio('Riesgo', 'Cualitativo', 20, Interpetacion.menor, null),
     new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20, Interpetacion.mayor, null)
   ];
 
@@ -125,16 +125,42 @@ export class CriteriosComponent implements OnInit {
   }
 
   addCriPro(){
-    //Falta Validar los inputs
     for (const proyecto of this.proyectos) {
       for (const criterio of proyecto.criterios) {
-        if (criterio.valor == null || criterio.valor === '') {
+        if (criterio.valor == null) {
           this.showError("Llenar todos los valores")
           return;
         }
       }
     }
     this.hideError();
+    this.calcularPeso();
+
+    $('#criteriosProyectos').css({'display': 'none'});
+    $('#matriz pesos').fadeIn();
+  }
+
+  calcularPeso(){
+    for (let i = 0; i < this.proyectos[0].criterios.length; i++){
+      let posiciones = new Array();
+      for (let k = 0; k < this.proyectos.length; k++){
+        posiciones.push(this.proyectos[k].criterios[i].valor);
+      }
+      posiciones.sort();
+      if (this.proyectos[0].criterios[i].interpretacion ==  Interpetacion.mayor)
+        posiciones.reverse();
+      console.log(posiciones);
+      console.log("proyectos" + this.proyectos.length);
+      for (let k = 0; k < this.proyectos.length; k++){
+        this.proyectos[k].criterios[i].peso =  this.proyectos.length + 1 - posiciones.indexOf(this.proyectos[k].criterios[i].valor)  * 2;
+        this.proyectos[k].valorTotal +=  this.proyectos[k].criterios[i].peso;
+      }
+    }
+
+    for (let k = 0; k < this.proyectos.length; k++){
+      this.proyectos[k].valorTotal /= this.proyectos[k].criterios.length;
+    }
+
   }
 
   showError(message: string){
