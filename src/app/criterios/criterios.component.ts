@@ -27,7 +27,7 @@ export class CriteriosComponent implements OnInit {
     new Criterio('Generación de tecnología propitaria', 'Cualitativo', 20, Interpetacion.mayor, null)
   ];
 
-  proyectos: Proyecto[] = [new Proyecto('GeekFactory', '10000', 'Administrador de Proyectos', JSON.parse(JSON.stringify(this.criterios)))];
+  proyectos: Proyecto[] = [new Proyecto('GeekFactory', 10000, 'Administrador de Proyectos', JSON.parse(JSON.stringify(this.criterios)))];
 
   constructor() {
   }
@@ -123,6 +123,18 @@ export class CriteriosComponent implements OnInit {
     $('#criteriosProyectos').css({'display': 'none'});
     $('#proyectos').fadeIn();
   }
+  backCriPro(){
+    $('#matrizPesos').css({'display': 'none'});
+    $('#criteriosProyectos').fadeIn();
+  }
+  backMatriz(){
+    $('#analisis').css({'display': 'none'});
+    $('#matrizPesos').fadeIn();
+  }
+  goAnalisis(){
+    $('#matrizPesos').css({'display': 'none'});
+    $('#analisis').fadeIn();
+  }
 
   addCriPro(){
     for (const proyecto of this.proyectos) {
@@ -137,10 +149,14 @@ export class CriteriosComponent implements OnInit {
     this.calcularPeso();
 
     $('#criteriosProyectos').css({'display': 'none'});
-    $('#matriz pesos').fadeIn();
+    $('#matrizPesos').fadeIn();
   }
 
   calcularPeso(){
+    for (let k = 0; k < this.proyectos.length; k++){
+      this.proyectos[k].valorTotal = 0;
+    }
+
     for (let i = 0; i < this.proyectos[0].criterios.length; i++){
       let posiciones = new Array();
       for (let k = 0; k < this.proyectos.length; k++){

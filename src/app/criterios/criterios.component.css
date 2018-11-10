@@ -14,7 +14,12 @@
 #proyectos{
   display:none
 }
-
+#analisis{
+  display: none;
+}
+#matrizPesos{
+  display: none;
+}
 
 #criteriosProyectos{
   display: none;
