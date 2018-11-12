@@ -7,6 +7,7 @@ import { CriteriosComponent } from './criterios/criterios.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FilterPipe }from './filter.pipe';
 import { SortPipe }from './prioridad.pipe';
+import { FilterProjects } from './criterios/customPipe';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { SortPipe }from './prioridad.pipe';
     CriteriosComponent,
     NavbarComponent,
     FilterPipe,
-    SortPipe
+    SortPipe,
+    FilterProjects
   ],
   imports: [
     BrowserModule,

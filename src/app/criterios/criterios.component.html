@@ -189,6 +189,7 @@
             <th> Proyecto </th>
             <th *ngFor="let criterio of criterios" scope="col">{{ criterio.nombre | slice:0:15}}..</th>
             <th> <strong>Total</strong> </th>
+            <th> <strong>Prioridad</strong> </th>
           </tr>
         </thead>
         <tbody>
@@ -196,6 +197,7 @@
             <td>{{ proyecto.nombre }}</td>
             <td *ngFor= "let criterio of proyecto.criterios" >{{criterio.peso}} </td>
             <td> <strong>{{proyecto.valorTotal}}</strong></td>
+            <td> <strong>{{proyecto.prioridad}}</strong></td>
           </tr>
         </table>
         <div class="row">
@@ -230,8 +232,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let proyecto of proyectos| filter : filterPrice | sort:'valorTotal'">
-            <td>-</td>
+          <tr *ngFor="let proyecto of proyectos | sort:'prioridad' | filter: filterPrice | sort:'prioridad'">
+            <td>{{proyecto.prioridad}}</td>
             <td >{{proyecto.nombre}} </td>
             <td> <strong>{{proyecto.presupuesto}}</strong></td>
           </tr>
