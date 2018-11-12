@@ -232,7 +232,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let proyecto of proyectos | sort:'prioridad' | filter: filterPrice | sort:'prioridad'">
+          <tr *ngFor="let proyecto of proyectos | filter: filterPrice ">
             <td>{{proyecto.prioridad}}</td>
             <td >{{proyecto.nombre}} </td>
             <td> <strong>{{proyecto.presupuesto}}</strong></td>

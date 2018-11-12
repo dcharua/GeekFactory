@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { CriteriosComponent } from './criterios/criterios.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FilterPipe }from './filter.pipe';
-import { SortPipe }from './prioridad.pipe';
 import { FilterProjects } from './criterios/customPipe';
 
 @NgModule({
@@ -15,7 +14,6 @@ import { FilterProjects } from './criterios/customPipe';
     CriteriosComponent,
     NavbarComponent,
     FilterPipe,
-    SortPipe,
     FilterProjects
   ],
   imports: [
@@ -24,6 +22,10 @@ import { FilterProjects } from './criterios/customPipe';
     ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [
+  FilterPipe,
+  FilterProjects
+  ]
 })
 export class AppModule { }

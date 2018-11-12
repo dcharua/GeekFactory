@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Criterio, Interpetacion } from "./criterio.model";
 import { Proyecto } from "./proyecto.model";
+//import {FilterPipe } from "../fliter.pipe";
+//import { FilterProjects } from "./custom.pipe";
 import {
   FormControl,
   Validators,
@@ -16,6 +18,7 @@ declare var $: any;
 })
 
 export class CriteriosComponent implements OnInit {
+  filterPrice = "";
   criterioForm: FormGroup;
   proyectoForm: FormGroup;
   help = false;
