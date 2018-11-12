@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FilterProyects } from './criterios/customPipe';
 
 @Component({
   selector: 'app-root',

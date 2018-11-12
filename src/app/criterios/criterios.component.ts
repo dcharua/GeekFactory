@@ -7,7 +7,6 @@ import {
   FormGroup,
   ReactiveFormsModule
 } from "@angular/forms";
-import { ConsoleReporter } from "jasmine";
 declare var $: any;
 
 @Component({
@@ -241,7 +240,7 @@ export class CriteriosComponent implements OnInit {
           this.showError("Llenar todos los valores");
           return;
         }
-        if (!this.isNumber(criterio.valor) && Object.values(ValorCualitativo).includes(criterio.valor) {
+        if (!this.isNumber(criterio.valor) && Object.values(ValorCualitativo).includes(criterio.valor)) {
           criterio.valor = ValorCualitativo[criterio.valor];
         }
       }
@@ -320,6 +319,7 @@ export class CriteriosComponent implements OnInit {
 
       for (let k = 0; k < posiciones.length; k++) {
         //console.log(2 * k + 1);
+        //
         console.log(this.proyectos[posicionesDict[posiciones[k]]]);
         this.proyectos[posicionesDict[posiciones[k]]].prioridad = k + 1;
       }
