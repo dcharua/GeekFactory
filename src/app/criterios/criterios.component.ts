@@ -81,9 +81,6 @@ export class CriteriosComponent implements OnInit {
       descripcion: new FormControl("", Validators.required)
     });
 
-    this.criterios[0].ponderacion = 15;
-    this.criterios[1].ponderacion = 25;
-    this.criterios[4].ponderacion = 15;
 
   }
 
@@ -219,70 +216,67 @@ export class CriteriosComponent implements OnInit {
 
     // Para cada criterio
     for (let i = 0; i < this.proyectos[0].criterios.length; i++) {
-      let posiciones = new Array();
+      let posicionesSet:Set<number> = new Set<number>();
+      let posicionesDict_1: Map<number, number[]> = new Map<number, number[]>();
       let posicionesDict : {[key: number]: number; } = {};
 
       // Para cada proyecto
       for (let k = 0; k < this.proyectos.length; k++) {
         const valor = Number(this.proyectos[k].criterios[i].valor);
-        posiciones.push(valor);
+        posicionesSet.add(valor);
+        if (posicionesDict_1.has(valor)) {
+          posicionesDict_1.get(valor).push(k);
+        } else {
+          posicionesDict_1.set(valor,  [k]);
+        }
         posicionesDict[valor] = k;
       }
-
+      let posiciones = Array.from(posicionesSet);
       posiciones.sort((a, b) => a - b); // For ascending sort
       if (this.proyectos[0].criterios[i].interpretacion === Interpetacion.menor) {
         posiciones.reverse();
       }
-      //console.log(posiciones);
-      //console.log(posicionesDict);
 
       for (let k = 0; k < posiciones.length; k++) {
-        //console.log(2 * k + 1);
-        //console.log(this.proyectos[posicionesDict[posiciones[k]]]);
-        this.proyectos[posicionesDict[posiciones[k]]].criterios[i].peso = 2 * k + 1;
+        // console.log(2 * k + 1);
+        // console.log(this.proyectos[posicionesDict[posiciones[k]]]);
+        for (let j of posicionesDict_1.get(posiciones[k])) {
+          this.proyectos[j].criterios[i].peso = 2* k +1;
+        }
+          // this.proyectos[posicionesDict[posiciones[k]]].criterios[i].peso = 2 * k + 1;
       }
 
       // Calcular el total
       for (let k = 0; k < this.proyectos.length; k++) {
-        console.log(this.proyectos[k].criterios[i].ponderacion);
+        // console.log(this.proyectos[k].criterios[i].ponderacion);
         this.proyectos[k].valorTotal += this.proyectos[k].criterios[i].peso * this.proyectos[k].criterios[i].ponderacion / 100;
       }
-      //console.log("\n");
-      /*
-      posiciones.sort();
-      console.log(posiciones);
-      if (this.proyectos[0].criterios[i].interpretacion == Interpetacion.mayor)
-        posiciones.reverse();
-      console.log(posiciones);
-      console.log("proyectos " + this.proyectos.length);
-      for (let k = 0; k < this.proyectos.length; k++) {
-        this.proyectos[k].criterios[i].peso =
-          this.proyectos.length +
-          1 -
-          posiciones.indexOf(this.proyectos[k].criterios[i].valor) * 2;
-        this.proyectos[k].valorTotal += this.proyectos[k].criterios[i].peso;
-      }
-      */
-    }
 
-    // Calcular la prioridad
-      let posicionesDict : {[key: number]: number; } = {};
-      let posiciones = new Array();
+      // Calcular la prioridad
+      posicionesDict_1 = new Map<number, number[]>();
+      posicionesSet = new Set<number>();
       // Para cada proyecto
       for (let k = 0; k < this.proyectos.length; k++) {
         const valor = Number(this.proyectos[k].valorTotal);
-        posiciones.push(valor);
-        posicionesDict[valor] = k;
+        posicionesSet.add(valor);
+        if (posicionesDict_1.has(valor)) {
+          posicionesDict_1.get(valor).push(k);
+        } else {
+          posicionesDict_1.set(valor,  [k]);
+        }
       }
+
+      posiciones = Array.from(posicionesSet);
       posiciones.sort((a, b) => b - a ); // For descending order
-      console.log(posiciones);
 
       for (let k = 0; k < posiciones.length; k++) {
-        //console.log(2 * k + 1);
-        //
-        console.log(this.proyectos[posicionesDict[posiciones[k]]]);
-        this.proyectos[posicionesDict[posiciones[k]]].prioridad = k + 1;
+        for (let j of posicionesDict_1.get(posiciones[k])) {
+          this.proyectos[j].prioridad = k +1;
+        }
+        //console.log(this.proyectos[posicionesDict[posiciones[k]]]);
+        //this.proyectos[posicionesDict[posiciones[k]]].prioridad = k + 1;
       }
+    }
   }
 
   showError(message: string) {
