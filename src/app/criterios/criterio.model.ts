@@ -6,13 +6,7 @@ export class Criterio {
   public valor: any;
   public peso: number;
 
-  constructor(
-    nombre: string,
-    tipo: string,
-    ponderacion: number,
-    interpretacion: Interpetacion,
-    valor: any
-  ) {
+  constructor(nombre: string, tipo: string, ponderacion: number, interpretacion: Interpetacion, valor: any) {
     this.nombre = nombre;
     this.tipo = tipo;
     this.ponderacion = ponderacion;
@@ -26,5 +20,3 @@ export enum Interpetacion {
   mayor,
   menor
 }
-
-

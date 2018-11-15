@@ -60,14 +60,7 @@ export class CriteriosComponent implements OnInit {
 
 
 
-  proyectos: Proyecto[] = [
-    new Proyecto(
-      "GeekFactory",
-      10000,
-      "Administrador de Proyectos",
-      JSON.parse(JSON.stringify(this.criterios))
-    )
-  ];
+  proyectos: Proyecto[] = [];
 
 
 
@@ -91,43 +84,7 @@ export class CriteriosComponent implements OnInit {
     this.criterios[0].ponderacion = 15;
     this.criterios[1].ponderacion = 25;
     this.criterios[4].ponderacion = 15;
-    this.criterios.push(new Criterio("Criterio añadido X", "Cuantitativo", 5, Interpetacion.mayor, null));
 
-
-    this.proyectos  = [
-    new Proyecto('A', 30000, '', JSON.parse(JSON.stringify(this.criterios))),
-    new Proyecto('B', 30000, '', JSON.parse(JSON.stringify(this.criterios))),
-    new Proyecto('C', 10000, '', JSON.parse(JSON.stringify(this.criterios))),
-    new Proyecto('D', 60000, '', JSON.parse(JSON.stringify(this.criterios))),
-    ];
-
-    this.proyectos[0].criterios[0].valor = 24;
-    this.proyectos[0].criterios[1].valor = 43000;
-    this.proyectos[0].criterios[2].valor = 6;
-    this.proyectos[0].criterios[3].valor = 'Alto';
-    this.proyectos[0].criterios[4].valor = 'Alto';
-    this.proyectos[0].criterios[5].valor = 10;
-
-    this.proyectos[1].criterios[0].valor = 11;
-    this.proyectos[1].criterios[1].valor = -1200;
-    this.proyectos[1].criterios[2].valor = 10;
-    this.proyectos[1].criterios[3].valor = 'Muy Alto';
-    this.proyectos[1].criterios[4].valor = 'Bajo';
-    this.proyectos[1].criterios[5].valor = 70;
-
-    this.proyectos[2].criterios[0].valor = 8;
-    this.proyectos[2].criterios[1].valor = -5000;
-    this.proyectos[2].criterios[2].valor = 8;
-    this.proyectos[2].criterios[3].valor = 'Medio';
-    this.proyectos[2].criterios[4].valor = 'Medio';
-    this.proyectos[2].criterios[5].valor = 50;
-
-    this.proyectos[3].criterios[0].valor = 5;
-    this.proyectos[3].criterios[1].valor = 21000;
-    this.proyectos[3].criterios[2].valor = 3;
-    this.proyectos[3].criterios[3].valor = 'Bajo';
-    this.proyectos[3].criterios[4].valor = 'Muy Bajo';
-    this.proyectos[3].criterios[5].valor = 100;
   }
 
   popAddPro() {
